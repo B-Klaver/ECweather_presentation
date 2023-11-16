@@ -306,6 +306,7 @@ station_urls <- ECweather::getECurls(id = 51442,
 
 ```
 
+.img-left[
 ``` {r, echo=FALSE, eval=TRUE}
 
 knitr::kable(head(station_urls$urls, 5),
@@ -317,6 +318,7 @@ knitr::kable(head(station_urls$urls, 5),
                 position = "left") 
 
 ```
+]
 
 ---
 
@@ -353,7 +355,7 @@ knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/docu
 
 ### 'ECweather' Overview: Weather Data Scraping
 
-- The primary function of the package is to directly load these datasets into R as a single dataframe
+- You can also directly load these datasets into R as a single dataframe
 
 - You can do this by calling:
 
@@ -372,6 +374,9 @@ df <- getECdata(stations = c(51442, 823, 833),
 
 ### 'ECweather' Overview: Weather Data Scraping
 
+- Check if we obtained all of the right data
+
+.img-left[
 ``` {r, echo=FALSE, eval=TRUE, fig.align='left'}
 
 knitr::kable(df %>% 
@@ -387,13 +392,16 @@ knitr::kable(df %>%
                 position = "left") 
 
 ```
-
+]
 
 ---
 
 ### 'ECweather' Overview: Weather Data Scraping
 
-``` {r, echo=FALSE, eval=TRUE, fig.align='left'}
+- Quick glimpse of the data
+
+.img-left[
+``` {r, echo=FALSE, eval=TRUE}
 
 knitr::kable(head(df %>%
                     mutate(day = as.numeric(day)) %>%
@@ -419,7 +427,7 @@ knitr::kable(head(df %>%
                 position = "left") 
 
 ```
-
+]
 
 ---
 
