@@ -1,5 +1,5 @@
 ---
-title: "ECweather"
+title: "The 'ECweather' Package"
 author: "Braeden Klaver"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
