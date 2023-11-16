@@ -1,0 +1,121 @@
+.column {
+  float: left;
+  width: 50%;
+}
+
+.clear {
+  clear: both;
+}
+
+code.r{
+  font-size: 14px;
+}
+
+
+.title-slide {
+  background-image: url(C:/Users/Braeden/Documents/Projects/package_dev/documents/ppt_title.png);
+  background-size: 100% 100%
+}
+
+.title-slide h1 {
+  color: black;
+  text-shadow: none;
+}
+
+.title-slide h2 {
+  color: black;
+  text-shadow: none;
+}
+
+.title-slide h3 {
+  color: black;
+  text-shadow: none;
+}
+
+.center2 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+
+.img-right {
+  float: right;
+  position: relative;
+  right: 200px;
+  top: 75px;
+}
+
+.img-left {
+  float: left;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.unwrap {
+  float: left;
+}
+
+gray {
+  color: #c9c9c9;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+gray2 {
+  color: #c9c9c9;
+  font-size: 20px;
+}
+
+.gray2 {
+  color: #c9c9c9;
+  font-size: 20px;
+}
+
+
+black {
+  color: black;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+black2 {
+  color: black;
+  font-size: 20px;
+}
+
+
+
+ul {
+  padding-left: 20px;
+}
+
+
+.sub_bullet > ul {
+    padding-left: 25px;
+}
+
+.sub_bullet > ul > li > ul {
+    padding-left: 30px;
+}
+
+.sub_bullet > ul > li {
+    list-style-type: disc;
+    list-style-position: outside;
+}
+
+.sub_bullet > ul > li > ul > li {
+    list-style-type: circle;
+    list-style-position: outside;
+}
+
+
+.remark-code {
+  font-size: 10px;
+}
+
+.tiny {
+  font-size: 50%;
+}

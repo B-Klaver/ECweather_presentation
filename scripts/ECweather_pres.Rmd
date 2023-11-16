@@ -1,0 +1,457 @@
+---
+title: "ECweather"
+author: "Braeden Klaver"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: 
+  xaringan::moon_reader:
+    self_contained:   true
+    css: ['default', 'styles.css']
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+      navigation:
+        scroll: false
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+
+sapply(c('devtools',
+         'ECweather',
+         'tidyverse',
+         'cowplot',
+         'png',
+         'grid',
+         'gridExtra',
+         'knitr',
+         'kableExtra'), 
+       require, 
+       character.only = TRUE)
+
+
+```
+
+
+### Environment Canada's Search Tool
+
+- Environment Canada provides a search tool to download historical weather data   
+
+- The tool does have limitations
+  - Can only download one weather station at a time
+  - Limited to one year's worth of data per download
+  - User interface is cumbersome
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/ec_webtool.png")
+```
+
+---
+
+### How to use the Environment Canada Search Tool
+
+1) Search for a station
+
+```{r, echo=FALSE, out.width="90%", fig.align='left'}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/ec_tool_step1.png")
+```
+
+
+<gray2>2) Input your station name into the station search and click 'Search'</gray2>
+<br>
+<br>
+<gray2>3) Select your parameters (ie. interval, year, month, and day) and click 'Go'</gray2>
+<br>
+<br>
+<gray2>4) Select your data format and click 'Download Data'</gray2>
+
+---
+
+### How to use the Environment Canada Search Tool
+
+<gray2>1) Search for a station</gray2>
+
+2) Input your station name into the station search and click 'Search'
+
+``` {r echo=FALSE}
+
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/ec_tool_step2.png", dpi = 200)
+
+```
+
+<gray2>3) Select your parameters (ie. interval, year, month, and day) and click 'Go'</gray2>
+<br>
+<br>
+<gray2>4) Select your data format and click 'Download Data'</gray2>
+
+
+---
+
+### How to use the Environment Canada Search Tool
+
+<gray2>1) Search for a station</gray2>
+<br>
+<br>
+<gray2>2) Input your station name into the station search and click 'Search'</gray2>
+
+3) Select your parameters (ie. interval, year, month, and day) and click 'Go'
+
+``` {r echo=FALSE}
+
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/ec_tool_step3.png", dpi = 200)
+
+```
+
+<gray2>4) Select your data format and click 'Download Data'</gray2>
+
+---
+
+### How to use the Environment Canada Search Tool
+
+<gray2>1) Search for a station</gray2>
+<br>
+<br>
+<gray2>2) Input your station name into the station search and click 'Search'</gray2>
+<br>
+<br>
+<gray2>3) Select your parameters (ie. interval, year, month, and day) and click 'Go'</gray2>
+
+4) Select your data format and click 'Download Data'
+
+``` {r echo=FALSE}
+
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/ec_tool_step4.png", dpi = 200)
+
+```
+
+*Note: that was for ONE weather station for ONE month's of data*
+
+---
+
+### Alternative: The 'ECweather' package
+
+- Allows you to easily scrape data from Environment Canada
+
+- Generate the URLs for the CSV files 
+
+- Directly load weather data into your environment
+
+- Allows for multiple stations and multiple years worth of data at a time
+
+- It provides the current list of active weather stations that have available data
+
+- Can be directly incorporated into a pipeline
+
+
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/thumbs.jpg", dpi = 300)
+```
+
+---
+
+# 'ECweather' Overview
+
+.img-right[
+```{r, echo=FALSE}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/rain.png", dpi = 100)
+```
+]
+
+.unwrap[
+<black>Package Installation</black>
+<br>
+<br>
+<gray>Weather Station List</gray>
+<br>
+<br>
+<br>
+<gray>Generating Station URLs</gray>
+<br>
+<br>
+<br>
+<gray>Weather Data Scraping</gray>  
+<br>
+<br>
+<br>
+<gray>Resources</gray>  
+]
+
+---
+
+### 'ECweather' Overview: Package Installation
+
+- To install 'ECweather' you must install it directly from GitHub using 'devtools'
+
+``` {r, echo=TRUE, eval=FALSE}
+
+library('devtools')
+devtools::install_github("B-Klaver/ECweather")
+
+```
+<br>
+<br>
+<br>
+
+```{r, echo=FALSE, out.width="40%", fig.align='center'}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/github.png")
+```
+
+
+---
+
+# 'ECweather' Overview
+
+.img-right[
+```{r, echo=FALSE}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/rain.png", dpi = 100)
+```
+]
+
+.unwrap[
+<gray>Package Installation</gray>
+<br>
+<br>
+<br>
+<black>Weather Station List</black>
+<br>
+<br>
+<br>
+<gray>Generating Station URLs</gray>
+<br>
+<br>
+<br>
+<gray>Weather Data Scraping</gray>  
+<br>
+<br>
+<br>
+<gray>Resources</gray>  
+]
+
+---
+
+### 'ECweather' Overview: Weather Station List
+
+- The station inventory is useful to obtain the station ID and what data is available for each station
+
+- You can access the station inventory by calling:
+
+``` {r, echo=TRUE, eval=FALSE}
+
+stations <- ECweather::station_inventory
+
+```
+
+``` {r, echo=FALSE, eval=TRUE}
+#TODO: highlight station ID, HLY Last Year, DLY Last Year and MLY Last Year
+
+knitr::kable(ECweather::station_inventory %>%
+               filter(Name %in% c("VANCOUVER INTL A",
+                                  "BURNABY SIMON FRASER U",
+                                  "VANCOUVER HARBOUR CS",
+                                  "POINT ATKINSON",
+                                  "RICHMOND DALLYN 2",
+                                  "N VANC GROUSE MTN RESORT",
+                                  "N VANCOUVER WHARVES"))) %>%
+  kable_styling(font_size = 7,
+                full_width = F)  %>%
+  column_spec(c(4, 14:19), background = "yellow")
+
+```
+
+---
+
+# 'ECweather' Overview
+
+.img-right[
+```{r, echo=FALSE}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/rain.png", dpi = 100)
+```
+]
+
+.unwrap[
+<gray>Package Installation</gray>
+<br>
+<br>
+<br>
+<gray>Weather Station List</gray>
+<br>
+<br>
+<br>
+<black>Generating Station URLs</black>
+<br>
+<br>
+<br>
+<gray>Weather Data Scraping</gray>  
+<br>
+<br>
+<br>
+<gray>Resources</gray>  
+]
+
+---
+
+### 'ECweather' Overview: Generating Station URLs
+
+- You can generate a list of URLs for a specific weather station by calling:
+
+``` {r, echo=TRUE, eval=TRUE}
+
+station_urls <- ECweather::getECurls(id = 51442,
+                                     year_start = 2022,
+                                     year_end = 2023,
+                                     timeframe = "hourly")
+
+```
+
+``` {r, echo=FALSE, eval=TRUE}
+
+knitr::kable(head(station_urls$urls, 5),
+             col.names = "URLs",
+        format = "html",
+        escape = FALSE) %>%
+  kable_styling(font_size = 10,
+                full_width = F,
+                position = "left") 
+
+```
+
+---
+
+# 'ECweather' Overview
+
+.img-right[
+```{r, echo=FALSE}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/rain.png", dpi = 100)
+```
+]
+
+.unwrap[
+<gray>Package Installation</gray>
+<br>
+<br>
+<br>
+<gray>Weather Station List</gray>
+<br>
+<br>
+<br>
+<gray>Generating Station URLs</gray>
+<br>
+<br>
+<br>
+<black>Weather Data Scraping</black>  
+<br>
+<br>
+<br>
+<gray>Resources</gray>  
+]
+
+
+---
+
+### 'ECweather' Overview: Weather Data Scraping
+
+- The primary function of the package is to directly load these datasets into R as a single dataframe
+
+- You can do this by calling:
+
+.tiny[
+``` {r, echo=TRUE, eval=TRUE}
+
+df <- getECdata(stations = c(51442, 823, 833),
+                year_start = 2020,
+                year_end = 2023,
+                timeframe = "daily")
+
+```
+]
+
+---
+
+### 'ECweather' Overview: Weather Data Scraping
+
+``` {r, echo=FALSE, eval=TRUE, fig.align='left'}
+
+knitr::kable(df %>% 
+                    mutate(day = as.numeric(day)) %>%
+                    arrange(year, month, day) %>%
+               group_by(station_id, station_name, year) %>%
+               summarise(total_days = n(), .groups = 'drop'),
+             #caption = "Example output (variables reduced)",
+        format = "html",
+        escape = FALSE) %>%
+  kable_styling(font_size = 10,
+                full_width = F,
+                position = "left") 
+
+```
+
+
+---
+
+### 'ECweather' Overview: Weather Data Scraping
+
+``` {r, echo=FALSE, eval=TRUE, fig.align='left'}
+
+knitr::kable(head(df %>%
+                    mutate(day = as.numeric(day)) %>%
+                    arrange(year, month, day) %>%
+                    select(station_id, 
+                           station_name, 
+                           latitude_y,
+                           i_longitude_x, 
+                           year, 
+                           month, 
+                           day, 
+                           mean_temp_a_c, 
+                           total_rain_mm,
+                           total_snow_cm,
+                           total_precip_mm,
+                           spd_of_max_gust_km_h), 
+                  20),
+             #caption = "Example output (variables reduced)",
+        format = "html",
+        escape = FALSE) %>%
+  kable_styling(font_size = 10,
+                full_width = F,
+                position = "left") 
+
+```
+
+
+---
+
+# 'ECweather' Overview
+
+.img-right[
+```{r, echo=FALSE}
+knitr::include_graphics("C:/Users/Braeden/Documents/Projects/ECweather_pres/documents/rain.png", dpi = 100)
+```
+]
+
+.unwrap[
+<gray>Package Installation</gray>
+<br>
+<br> 
+<gray>Weather Station List</gray>
+<br>
+<br> 
+<gray>Generating Station URLs</gray>
+<br>
+<br> 
+<gray>Weather Data Scraping</gray> 
+<br> 
+<br> 
+<black>Resources</black>  
+]
+
+---
+
+### 'ECweather' Overview: Resources
+
+**[ECweather Repository](https://github.com/B-Klaver/ECweather)**
+
+**[Environment Canada Data](https://climate.weather.gc.ca/historical_data/search_historic_data_e.html)**
+
